@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package ApiGrpc;
+
+option go_package = ".;proto";
+
+
+import "google/protobuf/empty.proto";
+import "googleapis/google/api/annotations.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "NakamaApiGrpc";
+option java_package = "com.heroiclabs.nakama.api";
+
+service StudentService {
+    // Tạo sinh viên mới
+    rpc CreateStudent (CreateStudentRequest) returns (StudentResponse) {
+        option (google.api.http) = {
+            post: "/v1/students"
+            body: "*"
+        };
+    }
+
+    // Lấy thông tin sinh viên theo ID
+    rpc GetStudent (GetStudentRequest) returns (StudentResponse) {
+        option (google.api.http) = {
+            get: "/v1/students/{student_id}"
+        };
+    }
+
+    // Cập nhật thông tin sinh viên
+    rpc UpdateStudent (UpdateStudentRequest) returns (StudentResponse) {
+        option (google.api.http) = {
+            put: "/v1/students/{student_id}"
+            body: "*"
+        };
+    }
+
+    // Xoá sinh viên
+    rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentResponse) {
+        option (google.api.http) = {
+            delete: "/v1/students/{student_id}"
+        };
+    }
+}
+
+message CreateStudentRequest {
+    string name = 1;
+    string email = 2;
+}
+
+message GetStudentRequest {
+    string student_id = 1;
+}
+
+message UpdateStudentRequest {
+    string student_id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message DeleteStudentRequest {
+    string student_id = 1;
+}
+
+message StudentResponse {
+    string student_id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message DeleteStudentResponse {
+    string message = 1;
+}
